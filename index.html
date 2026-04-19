@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>SalesControl — platforma dla biznesu online</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lejki sprzedaży, CRM, kursy, komunikacja, e-podpis i kalendarz w jednym miejscu.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <a class="logo" href="index.html">SalesControl</a>
+        <nav class="site-nav" aria-label="Główne">
+            <a href="#funkcje">Funkcje</a>
+            <a href="#cennik">Cennik</a>
+            <a href="#kontakt">Kontakt</a>
+            <a href="rejestracja.html">Rejestracja</a>
+            <a class="nav-cta" href="logowanie.html?next=panel-demo.html">Zaloguj</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="top">
+            <p class="eyebrow">Platforma marketingowa + CRM</p>
+            <h1>Zarządzaj klientami i sprzedażą online w jednym miejscu</h1>
+            <p class="lead">Lejki sprzedaży, CRM, kursy, e-mail i SMS, e-podpis dokumentów oraz kalendarz spotkań — zgodnie z modelem narzędzi typu all-in-one dla biznesu online.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="rejestracja.html" id="startBtn">Załóż konto</a>
+                <a class="btn btn-ghost" href="logowanie.html?next=panel-demo.html">Zaloguj się</a>
+                <a class="btn btn-ghost" href="#funkcje">Zobacz funkcje</a>
+            </div>
+        </section>
+
+        <section class="section" id="funkcje" aria-labelledby="funkcje-heading">
+            <div class="section-head">
+                <h2 id="funkcje-heading">Moduły platformy</h2>
+                
+            </div>
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <h3>1. Lejek sprzedaży i landing pages</h3>
+                    <ul>
+                        <li>Builder stron i lejków (drag-and-drop)</li>
+                        <li>Formularze opt-in z integracją CRM</li>
+                        <li>Strony VSL, hosting wideo + formularz</li>
+                        <li>Testy A/B, dedykowana domena, statystyki</li>
+                        <li>Pop-upy i reguły wyświetlania</li>
+                    </ul>
+                </article>
+                <article class="feature-card">
+                    <h3>2. CRM — kontakty i leady</h3>
+                    <ul>
+                        <li>Centralna baza kontaktów</li>
+                        <li>Smart listy, segmentacja, tagi, pola niestandardowe</li>
+                        <li>Pipeline i statusy leadów</li>
+                        <li>Historia interakcji, notatki, zadania</li>
+                        <li>Deduplikacja, DND, lead scoring</li>
+                    </ul>
+                </article>
+                <article class="feature-card">
+                    <h3>3. Komunikacja</h3>
+                    <ul>
+                        <li>Synchronizacja skrzynek (Gmail / Outlook)</li>
+                        <li>E-mail i SMS: ręcznie i w automatyzacjach</li>
+                        <li>Kanały społecznościowe (m.in. Meta, Instagram)</li>
+                        <li>Jedna skrzynka (unified inbox), szablony</li>
+                        <li>Trigger po akcjach (np. klik w link)</li>
+                    </ul>
+                </article>
+                <article class="feature-card">
+                    <h3>4. Kursy i portal członkowski</h3>
+                    <ul>
+                        <li>Struktura kursu: moduły, lekcje, media</li>
+                        <li>Role: admin, instruktor, uczestnik</li>
+                        <li>Dostęp po zakupie lub po podpisaniu dokumentu</li>
+                        <li>Quizy, certyfikaty / odznaki</li>
+                        <li>Statystyki ukończenia i zaangażowania</li>
+                    </ul>
+                </article>
+                <article class="feature-card">
+                    <h3>5. Dokumenty i e-podpis</h3>
+                    <ul>
+                        <li>Upload PDF / HTML</li>
+                        <li>E-podpis i powiadomienia o statusie</li>
+                        <li>Log aktywności, archiwum podpisanych plików</li>
+                        <li>Powiązanie dokumentu z kontaktem w CRM</li>
+                    </ul>
+                </article>
+                <article class="feature-card">
+                    <h3>6. Kalendarz i spotkania</h3>
+                    <ul>
+                        <li>Kalendarz osobisty i zespołowy</li>
+                        <li>Rezerwacje z lejka / landing page</li>
+                        <li>Sync Google / Outlook, Zoom / Teams / Meet</li>
+                        <li>Formularze kwalifikacyjne, strefy czasowe</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section section-alt" id="cennik" aria-labelledby="cennik-heading">
+            <div class="section-head">
+                <h2 id="cennik-heading">Cennik (przykładowy)</h2>
+                <p class="section-sub">Statyczna prezentacja na potrzeby projektu — bez prawdziwych płatności.</p>
+            </div>
+            <div class="pricing-grid">
+                <article class="price-card">
+                    <h3>Start</h3>
+                    <p class="price"><span class="amount">99</span> zł / mc</p>
+                    <ul>
+                        <li>1 lejek + CRM do 500 kontaktów</li>
+                        <li>E-mail: podstawowe automatyzacje</li>
+                        <li>Kalendarz: 1 użytkownik</li>
+                    </ul>
+                    <a class="btn btn-ghost btn-block" href="#kontakt">Wybierz</a>
+                </article>
+                <article class="price-card price-card-featured">
+                    <p class="badge">Polecane</p>
+                    <h3>Growth</h3>
+                    <p class="price"><span class="amount">249</span> zł / mc</p>
+                    <ul>
+                        <li>5 lejków, CRM do 5000 kontaktów</li>
+                        <li>SMS + więcej automatyzacji</li>
+                        <li>1 kurs + e-podpis (limit dokumentów)</li>
+                        <li>Kalendarz zespołowy</li>
+                    </ul>
+                    <a class="btn btn-primary btn-block" href="#kontakt">Wybierz</a>
+                </article>
+                <article class="price-card">
+                    <h3>Scale</h3>
+                    <p class="price"><span class="amount">499</span> zł / mc</p>
+                    <ul>
+                        <li>Nielimitowane lejki (wg polityki fair use)</li>
+                        <li>Pełny portal kursowy + zaawansowany CRM</li>
+                        <li>Priorytetowe wsparcie (w wersji docelowej produktu)</li>
+                    </ul>
+                    <a class="btn btn-ghost btn-block" href="#kontakt">Wybierz</a>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="kontakt" aria-labelledby="kontakt-heading">
+            <div class="section-head">
+                <h2 id="kontakt-heading">Kontakt</h2>
+                
+            </div>
+            <form class="contact-form" id="contactForm" novalidate>
+                <div class="form-row">
+                    <label for="name">Imię i nazwisko</label>
+                    <input type="text" id="name" name="name" autocomplete="name" required placeholder="Jan Kowalski">
+                </div>
+                <div class="form-row">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" autocomplete="email" required placeholder="jan@firma.pl">
+                </div>
+                <div class="form-row">
+                    <label for="msg">Wiadomość</label>
+                    <textarea id="msg" name="msg" rows="4" required placeholder="Opisz krótko potrzeby (np. liczba użytkowników, moduły)."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" id="registerBtn">Wyślij zgłoszenie</button>
+                <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section class="cta-band">
+            <div class="cta-inner">
+                <h2>Gotowy na rozwój biznesu?</h2>
+                <p>Zarejestruj konto demo, zaloguj się i zobacz szkic panelu aplikacji.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="rejestracja.html">Rejestracja</a>
+                    <a class="btn btn-ghost" href="logowanie.html?next=panel-demo.html">Logowanie</a>
+                    <a class="btn btn-ghost" href="panel-demo.html">Panel</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2026 SalesControl — projekt demonstracyjny (frontend).</p>
+        
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
