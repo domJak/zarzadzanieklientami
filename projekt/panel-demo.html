@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel — SalesControl (demo)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="panel-body">
+    <div class="app-shell">
+        <aside class="app-sidebar" aria-label="Nawigacja aplikacji">
+            <a class="logo logo-sm" href="index.html">SalesControl</a>
+            <nav class="app-nav" aria-label="Moduły">
+                <a href="#pulpit" data-view="pulpit" class="is-active">Pulpit</a>
+                <a href="#lejki" data-view="lejki">Lejki</a>
+                <a href="#crm" data-view="crm">CRM</a>
+                <a href="#wiadomosci" data-view="wiadomosci">Wiadomości</a>
+                <a href="#kursy" data-view="kursy">Kursy</a>
+                <a href="#dokumenty" data-view="dokumenty">Dokumenty</a>
+                <a href="#kalendarz" data-view="kalendarz">Kalendarz</a>
+            </nav>
+            <p class="sidebar-hint">Wybierz moduł z menu — treść demonstracyjna (frontend bez API).</p>
+        </aside>
+        <div class="app-main">
+            <header class="app-topbar">
+                <h1 class="app-title" id="appTitle">Pulpit</h1>
+                <div class="topbar-actions">
+                    <span class="pill" id="userPill" hidden></span>
+                    <span class="pill">Demo</span>
+                    <button type="button" class="btn btn-ghost btn-sm" id="logoutBtn" hidden>Wyloguj</button>
+                    <a class="btn btn-ghost btn-sm" href="index.html">Strona marketingowa</a>
+                </div>
+            </header>
+            <div class="app-content">
+                <div id="view-pulpit" class="panel-view">
+                    <section class="widgets">
+                        <article class="widget">
+                            <h2>Leady (7 dni)</h2>
+                            <p class="widget-stat">+128</p>
+                            <p class="widget-caption">Przykładowe dane</p>
+                        </article>
+                        <article class="widget">
+                            <h2>Spotkania dziś</h2>
+                            <p class="widget-stat">4</p>
+                            <p class="widget-caption">Kalendarz zespołu</p>
+                        </article>
+                        <article class="widget">
+                            <h2>Dokumenty do podpisu</h2>
+                            <p class="widget-stat">3</p>
+                            <p class="widget-caption">E-sign</p>
+                        </article>
+                    </section>
+                    <section class="panel-section">
+                        <h2>Ostatnia aktywność</h2>
+                        <ul class="activity-list">
+                            <li><strong>Nowy lead:</strong> zapis z landing page „Webinar Q2”.</li>
+                            <li><strong>E-mail:</strong> otwarcie sekwencji powitalnej (klient: ACME).</li>
+                            <li><strong>Dokument:</strong> umowa ND podpisana przez obie strony.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div id="view-lejki" class="panel-view" hidden>
+                    <section class="panel-section">
+                        <h2>Twoje lejki</h2>
+                        <p class="panel-intro">Builder stron, A/B testy, opt-in i publikacja na domenie — dane poniżej są przykładowe.</p>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nazwa lejka</th>
+                                        <th>Status</th>
+                                        <th>Konwersja (ostatnie 7 dni)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Webinar Q2</td>
+                                        <td><span class="tag tag-live">Aktywny</span></td>
+                                        <td>3,2%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lead magnet — checklista</td>
+                                        <td><span class="tag tag-live">Aktywny</span></td>
+                                        <td>5,8%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Oferta produktowa</td>
+                                        <td><span class="tag tag-draft">Szkic</span></td>
+                                        <td>—</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="panel-actions"><button type="button" class="btn btn-ghost btn-sm" disabled>+ Nowy lejek (demo)</button></p>
+                    </section>
+                </div>
+
+                <div id="view-crm" class="panel-view" hidden>
+                    <section class="panel-section">
+                        <h2>Kontakty i leady</h2>
+                        <p class="panel-intro">Centralna baza, tagi, pipeline i smart listy — widok demonstracyjny.</p>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Kontakt</th>
+                                        <th>Etap</th>
+                                        <th>Ostatnia aktywność</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Anna Kowalska <span class="muted">anna@example.com</span></td>
+                                        <td>Kwalifikacja</td>
+                                        <td>Dziś, 09:12</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ACME Sp. z o.o. <span class="muted">kontakt@acme.pl</span></td>
+                                        <td>Oferta</td>
+                                        <td>Wczoraj</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Marek Nowak <span class="muted">m.nowak@firma.eu</span></td>
+                                        <td>Nowy lead</td>
+                                        <td>2 dni temu</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                <div id="view-wiadomosci" class="panel-view" hidden>
+                    <section class="panel-section">
+                        <h2>Unified inbox</h2>
+                        <p class="panel-intro">E-mail, SMS i czaty w jednym widoku — przykładowa skrzynka.</p>
+                        <ul class="inbox-list">
+                            <li class="inbox-item">
+                                <span class="inbox-channel">E-mail</span>
+                                <strong>ACME</strong> — „Pytanie o wdrożenie” <span class="muted">· 11:04</span>
+                            </li>
+                            <li class="inbox-item">
+                                <span class="inbox-channel">SMS</span>
+                                <strong>+48 *** *** 102</strong> — „Potwierdzam spotkanie” <span class="muted">· 10:22</span>
+                            </li>
+                            <li class="inbox-item">
+                                <span class="inbox-channel">Messenger</span>
+                                <strong>Lead: Webinar</strong> — „Czy nagranie będzie dostępne?” <span class="muted">· Wczoraj</span>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div id="view-kursy" class="panel-view" hidden>
+                    <section class="panel-section">
+                        <h2>Kursy i portal</h2>
+                        <p class="panel-intro">Moduły, lekcje, dostęp po zakupie lub podpisie dokumentu.</p>
+                        <div class="course-cards">
+                            <article class="course-card">
+                                <h3>Onboarding klienta B2B</h3>
+                                <p class="muted">12 lekcji · 86% ukończeń</p>
+                                <span class="tag tag-live">Opublikowany</span>
+                            </article>
+                            <article class="course-card">
+                                <h3>Produkt — szkolenie sprzedażowe</h3>
+                                <p class="muted">8 lekcji · Szkic</p>
+                                <span class="tag tag-draft">Szkic</span>
+                            </article>
+                        </div>
+                    </section>
+                </div>
+
+                <div id="view-dokumenty" class="panel-view" hidden>
+                    <section class="panel-section">
+                        <h2>Dokumenty i e-podpis</h2>
+                        <p class="panel-intro">PDF/HTML, status podpisu, archiwum i powiązanie z kontaktem w CRM.</p>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Dokument</th>
+                                        <th>Status</th>
+                                        <th>Powiązany kontakt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Umowa ND — ACME.pdf</td>
+                                        <td><span class="tag tag-ok">Podpisana</span></td>
+                                        <td>ACME Sp. z o.o.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Zgody marketingowe.pdf</td>
+                                        <td><span class="tag tag-wait">Oczekuje</span></td>
+                                        <td>Anna Kowalska</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Regulamin usługi.pdf</td>
+                                        <td><span class="tag tag-wait">Wysłany</span></td>
+                                        <td>Marek Nowak</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                <div id="view-kalendarz" class="panel-view" hidden>
+                    <section class="panel-section">
+                        <h2>Kalendarz i spotkania</h2>
+                        <p class="panel-intro">Rezerwacje z lejka, synchronizacja z kalendarzami zewnętrznymi, Zoom/Teams.</p>
+                        <ul class="activity-list calendar-agenda">
+                            <li><strong>09:00</strong> — Demo produktu <span class="muted">(Zoom)</span></li>
+                            <li><strong>11:30</strong> — Kick-off wdrożenia <span class="muted">(Teams)</span></li>
+                            <li><strong>15:00</strong> — Blok „Deep work” <span class="muted">(prywatne)</span></li>
+                        </ul>
+                        <p class="panel-actions"><button type="button" class="btn btn-ghost btn-sm" disabled>+ Nowe spotkanie (demo)</button></p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="panel-app.js"></script>
+</body>
+</html>
