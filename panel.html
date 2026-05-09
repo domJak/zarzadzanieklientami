@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel — SalesControl</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="panel-body">
+    <div class="app-shell">
+        <aside class="app-sidebar" aria-label="Nawigacja aplikacji">
+            <a class="logo logo-sm" href="index.html">SalesControl</a>
+            <nav class="app-nav" aria-label="Moduły">
+                <a href="#pulpit" data-view="pulpit" class="is-active">Pulpit</a>
+                <a href="#lejki" data-view="lejki">Lejki</a>
+                <a href="#crm" data-view="crm">CRM</a>
+                <a href="#wiadomosci" data-view="wiadomosci">Wiadomości</a>
+                <a href="#kursy" data-view="kursy">Kursy</a>
+                <a href="#dokumenty" data-view="dokumenty">Dokumenty</a>
+                <a href="#kalendarz" data-view="kalendarz">Kalendarz</a>
+            </nav>
+            
+        </aside>
+        <div class="app-main">
+            <header class="app-topbar">
+                <h1 class="app-title" id="appTitle">Pulpit</h1>
+                <div class="topbar-actions">
+                    <span class="pill" id="userPill" hidden></span>
+                    <span class="pill">Demo</span>
+                    <button type="button" class="btn btn-ghost btn-sm" id="logoutBtn" hidden>Wyloguj</button>
+                    <a class="btn btn-ghost btn-sm" href="index.html">Strona marketingowa</a>
+                </div>
+            </header>
+            <div class="app-content">
+                <div id="view-pulpit" class="panel-view">
+                    <section class="widgets">
+                        <article class="widget">
+                            <h2>Leady (7 dni)</h2>
+                            <p class="widget-stat">+128</p>
+                            <p class="widget-caption">Przykładowe dane</p>
+                        </article>
+                        <article class="widget">
+                            <h2>Spotkania dziś</h2>
+                            <p class="widget-stat">4</p>
+                            <p class="widget-caption">Kalendarz zespołu</p>
+                        </article>
+                        <article class="widget">
+                            <h2>Dokumenty do podpisu</h2>
+                            <p class="widget-stat">3</p>
+                            <p class="widget-caption">E-sign</p>
+                        </article>
+                    </section>
+                    <section class="panel-section">
+                        <h2>Ostatnia aktywność</h2>
+                        <ul class="activity-list">
+                            <li><strong>Nowy lead:</strong> zapis z landing page „Webinar Q2”.</li>
+                            <li><strong>E-mail:</strong> otwarcie sekwencji powitalnej (klient: ACME).</li>
+                            <li><strong>Dokument:</strong> umowa ND podpisana przez obie strony.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div id="view-lejki" class="panel-view" hidden>
+                    <section class="panel-section">
+                        <h2>Twoje lejki</h2>
+                        <p class="panel-intro">Builder stron, A/B testy, opt-in i publikacja na domenie. Poniższa lista zaczyna się od przykładów — możesz dodawać własne lejki; dane zapisują się w tej przeglądarce (powiązane z kontem).</p>
+                        <div class="table-wrap">
+                            <table class="data-table" id="funnelsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nazwa lejka</th>
+                                        <th>Status</th>
+                                        <th>Konwersja (ostatnie 7 dni)</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="funnelsTableBody"></tbody>
+                            </table>
+                        </div>
+                        <p class="panel-actions"><button type="button" class="btn btn-primary btn-sm" id="addFunnelBtn">+ Nowy lejek</button></p>
+                    </section>
+                </div>
+
+                <div id="view-crm" class="panel-view" hidden>
+                    <section class="panel-section">
+                        <h2>Kontakty i leady</h2>
+                        <p class="panel-intro">Centralna baza, tagi, pipeline i smart listy — widok demonstracyjny.</p>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Kontakt</th>
+                                        <th>Etap</th>
+                                        <th>Ostatnia aktywność</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Anna Kowalska <span class="muted">anna@example.com</span></td>
+                                        <td>Kwalifikacja</td>
+                                        <td>Dziś, 09:12</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ACME Sp. z o.o. <span class="muted">kontakt@acme.pl</span></td>
+                                        <td>Oferta</td>
+                                        <td>Wczoraj</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Marek Nowak <span class="muted">m.nowak@firma.eu</span></td>
+                                        <td>Nowy lead</td>
+                                        <td>2 dni temu</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                <div id="view-wiadomosci" class="panel-view" hidden>
+                    <section class="panel-section">
+                        <h2>Unified inbox</h2>
+                        <p class="panel-intro">E-mail, SMS i czaty w jednym widoku — przykładowa skrzynka.</p>
+                        <ul class="inbox-list">
+                            <li class="inbox-item">
+                                <span class="inbox-channel">E-mail</span>
+                                <strong>ACME</strong> — „Pytanie o wdrożenie” <span class="muted">· 11:04</span>
+                            </li>
+                            <li class="inbox-item">
+                                <span class="inbox-channel">SMS</span>
+                                <strong>+48 *** *** 102</strong> — „Potwierdzam spotkanie” <span class="muted">· 10:22</span>
+                            </li>
+                            <li class="inbox-item">
+                                <span class="inbox-channel">Messenger</span>
+                                <strong>Lead: Webinar</strong> — „Czy nagranie będzie dostępne?” <span class="muted">· Wczoraj</span>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div id="view-kursy" class="panel-view" hidden>
+                    <section class="panel-section">
+                        <h2>Kursy i portal</h2>
+                        <p class="panel-intro">Moduły, lekcje, dostęp po zakupie lub podpisie dokumentu. Zarządzaj kursami poniżej — dane zapisują się w tej przeglądarce (powiązane z kontem).</p>
+                        <div class="course-cards" id="courseCards"></div>
+                        <p class="panel-actions"><button type="button" class="btn btn-primary btn-sm" id="addCourseBtn">+ Nowy kurs</button></p>
+                    </section>
+                </div>
+
+                <div id="view-dokumenty" class="panel-view" hidden>
+                    <section class="panel-section">
+                        <h2>Dokumenty i e-podpis</h2>
+                        <p class="panel-intro">PDF/HTML, status podpisu, archiwum i powiązanie z kontaktem w CRM.</p>
+                        <div class="table-wrap">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Dokument</th>
+                                        <th>Status</th>
+                                        <th>Powiązany kontakt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Umowa ND — ACME.pdf</td>
+                                        <td><span class="tag tag-ok">Podpisana</span></td>
+                                        <td>ACME Sp. z o.o.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Zgody marketingowe.pdf</td>
+                                        <td><span class="tag tag-wait">Oczekuje</span></td>
+                                        <td>Anna Kowalska</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Regulamin usługi.pdf</td>
+                                        <td><span class="tag tag-wait">Wysłany</span></td>
+                                        <td>Marek Nowak</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                <div id="view-kalendarz" class="panel-view" hidden>
+                    <section class="panel-section">
+                        <h2>Kalendarz i spotkania</h2>
+                        <p class="panel-intro">Kliknij dzień, aby dodać lub usunąć wydarzenia. Dane zapisują się w tej przeglądarce (powiązane z kontem).</p>
+                        <div class="calendar-layout">
+                            <div class="calendar-shell">
+                                <div class="calendar-widget" aria-label="Widok miesiąca">
+                                    <div class="calendar-toolbar">
+                                        <button type="button" class="calendar-nav-btn" id="calPrev" aria-label="Poprzedni miesiąc">‹</button>
+                                        <h3 class="calendar-month-title" id="calMonthYear"></h3>
+                                        <button type="button" class="calendar-nav-btn" id="calNext" aria-label="Następny miesiąc">›</button>
+                                        <button type="button" class="btn btn-ghost btn-sm calendar-today-btn" id="calToday">Dziś</button>
+                                    </div>
+                                    <div class="calendar-weekdays">
+                                        <span>Pn</span><span>Wt</span><span>Śr</span><span>Cz</span><span>Pt</span><span>So</span><span>Nd</span>
+                                    </div>
+                                    <div class="calendar-grid" id="calGrid" role="grid" aria-label="Dni miesiąca"></div>
+                                </div>
+                            </div>
+                            <aside class="calendar-side-panels" aria-label="Dziś i jutro — plan i czas">
+                                <div class="calendar-today-card">
+                                    <p class="today-panel-eyebrow">Dziś</p>
+                                    <p class="today-panel-date" id="calTodayDateLine"></p>
+                                    <p class="today-panel-time" id="calLiveClock"></p>
+                                    <h3 class="today-panel-heading">Zaplanowane na dziś</h3>
+                                    <ul class="today-panel-list" id="calTodayAgenda"></ul>
+                                </div>
+                                <div class="calendar-today-card calendar-tomorrow-card">
+                                    <p class="today-panel-eyebrow today-panel-eyebrow--tomorrow">Jutro</p>
+                                    <p class="today-panel-date" id="calTomorrowDateLine"></p>
+                                    <p class="today-panel-countdown-label muted">Pozostało do północy</p>
+                                    <p class="today-panel-time" id="calTomorrowCountdown"></p>
+                                    <h3 class="today-panel-heading">Zaplanowane na jutro</h3>
+                                    <ul class="today-panel-list" id="calTomorrowAgenda"></ul>
+                                </div>
+                            </aside>
+                        </div>
+                    </section>
+                </div>
+
+                <dialog class="cal-dialog" id="calDayDialog" aria-labelledby="calDialogTitle">
+                    <div class="cal-dialog-inner">
+                        <h3 class="cal-dialog-title" id="calDialogTitle">Wydarzenia</h3>
+                        <ul class="cal-event-list" id="calEventList"></ul>
+                        <form class="cal-add-form" id="calAddForm">
+                            <p class="cal-form-heading">Nowe wydarzenie</p>
+                            <label class="cal-field">
+                                <span>Tytuł</span>
+                                <input type="text" name="title" id="calInputTitle" required maxlength="120" autocomplete="off" placeholder="np. Demo z klientem">
+                            </label>
+                            <label class="cal-field">
+                                <span>Godzina <span class="muted">(opcjonalnie)</span></span>
+                                <input type="time" name="time" id="calInputTime">
+                            </label>
+                            <label class="cal-field">
+                                <span>Notatka <span class="muted">(opcjonalnie)</span></span>
+                                <textarea name="note" id="calInputNote" rows="2" maxlength="500" placeholder="Link do spotkania, szczegóły…"></textarea>
+                            </label>
+                            <div class="cal-dialog-actions">
+                                <button type="submit" class="btn btn-primary btn-sm">Dodaj wydarzenie</button>
+                                <button type="button" class="btn btn-ghost btn-sm" id="calDialogClose">Zamknij</button>
+                            </div>
+                        </form>
+                    </div>
+                </dialog>
+
+                <dialog class="cal-dialog funnel-dialog" id="funnelDialog" aria-labelledby="funnelDialogTitle">
+                    <div class="cal-dialog-inner">
+                        <h3 class="cal-dialog-title" id="funnelDialogTitle">Nowy lejek</h3>
+                        <form class="cal-add-form" id="funnelAddForm">
+                            <label class="cal-field">
+                                <span>Nazwa lejka</span>
+                                <input type="text" name="name" id="funnelInputName" required maxlength="120" autocomplete="off" placeholder="np. Landing — oferta wakacyjna">
+                            </label>
+                            <label class="cal-field">
+                                <span>Status</span>
+                                <select name="status" id="funnelInputStatus">
+                                    <option value="live">Aktywny</option>
+                                    <option value="draft">Szkic</option>
+                                </select>
+                            </label>
+                            <label class="cal-field">
+                                <span>Konwersja (ostatnie 7 dni) <span class="muted">— opcjonalnie</span></span>
+                                <input type="text" name="conversion" id="funnelInputConversion" maxlength="20" autocomplete="off" placeholder="np. 4,2% lub zostaw puste">
+                            </label>
+                            <div class="cal-dialog-actions">
+                                <button type="submit" class="btn btn-primary btn-sm">Dodaj lejek</button>
+                                <button type="button" class="btn btn-ghost btn-sm" id="funnelDialogClose">Anuluj</button>
+                            </div>
+                        </form>
+                    </div>
+                </dialog>
+
+                <dialog class="cal-dialog" id="courseDialog" aria-labelledby="courseDialogTitle">
+                    <div class="cal-dialog-inner">
+                        <h3 class="cal-dialog-title" id="courseDialogTitle">Nowy kurs</h3>
+                        <form class="cal-add-form" id="courseForm">
+                            <input type="hidden" id="courseEditId" value="">
+                            <label class="cal-field">
+                                <span>Tytuł kursu</span>
+                                <input type="text" name="title" id="courseInputTitle" required maxlength="160" autocomplete="off" placeholder="np. Onboarding klienta B2B">
+                            </label>
+                            <label class="cal-field">
+                                <span>Liczba lekcji</span>
+                                <input type="number" name="lessons" id="courseInputLessons" min="0" max="9999" value="0" required>
+                            </label>
+                            <label class="cal-field">
+                                <span>Dodatkowy opis <span class="muted">— opcjonalnie</span></span>
+                                <input type="text" name="extra" id="courseInputExtra" maxlength="120" autocomplete="off" placeholder="np. 86% ukończeń, dostęp po zakupie">
+                            </label>
+                            <label class="cal-field">
+                                <span>Status</span>
+                                <select name="status" id="courseInputStatus">
+                                    <option value="published">Opublikowany</option>
+                                    <option value="draft">Szkic</option>
+                                </select>
+                            </label>
+                            <div class="cal-dialog-actions">
+                                <button type="submit" class="btn btn-primary btn-sm" id="courseSubmitBtn">Dodaj kurs</button>
+                                <button type="button" class="btn btn-ghost btn-sm" id="courseDialogClose">Anuluj</button>
+                            </div>
+                        </form>
+                    </div>
+                </dialog>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="panel-app.js"></script>
+    <script src="panel-calendar.js"></script>
+    <script src="panel-funnels.js"></script>
+    <script src="panel-courses.js"></script>
+</body>
+</html>
