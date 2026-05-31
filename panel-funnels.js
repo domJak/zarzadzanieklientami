@@ -60,9 +60,13 @@
         dialog: document.getElementById("funnelDialog"),
         form: document.getElementById("funnelAddForm"),
         closeBtn: document.getElementById("funnelDialogClose"),
+        titleEl: document.getElementById("funnelDialogTitle"),
+        submitBtn: document.getElementById("funnelSubmitBtn"),
+        editId: document.getElementById("funnelEditId"),
         inputName: document.getElementById("funnelInputName"),
         inputStatus: document.getElementById("funnelInputStatus"),
-        inputConversion: document.getElementById("funnelInputConversion")
+        searchInput: document.getElementById("funnelSearch"),
+        statusFilter: document.getElementById("funnelStatusFilter")
     };
 
     function statusCell(status) {
@@ -79,8 +83,19 @@
         return td;
     }
 
-    function renderTable() {
+    function getFilteredFunnels() {
         var list = loadFunnels() || [];
+        var q = els.searchInput ? String(els.searchInput.value || "").trim().toLowerCase() : "";
+        var status = els.statusFilter ? els.statusFilter.value : "";
+        return list.filter(function (f) {
+            if (status && f.status !== status) return false;
+            if (!q) return true;
+            return String(f.name || "").toLowerCase().indexOf(q) !== -1;
+        });
+    }
+
+    function renderTable() {
+        var list = getFilteredFunnels();
         tbody.innerHTML = "";
 
         if (!list.length) {
@@ -88,7 +103,9 @@
             var td = document.createElement("td");
             td.colSpan = 4;
             td.className = "funnels-empty-row muted";
-            td.textContent = "Brak lejków — kliknij „Nowy lejek”, aby dodać pierwszy.";
+            td.textContent = loadFunnels() && loadFunnels().length
+                ? "Brak wyników dla wybranych filtrów."
+                : "Brak lejków — kliknij „Nowy lejek”, aby dodać pierwszy.";
             tr.appendChild(td);
             tbody.appendChild(tr);
             return;
@@ -109,6 +126,17 @@
 
             var tdAct = document.createElement("td");
             tdAct.className = "funnels-actions";
+
+            var editBtn = document.createElement("button");
+            editBtn.type = "button";
+            editBtn.className = "btn btn-ghost btn-sm";
+            editBtn.textContent = "Edytuj";
+            editBtn.addEventListener("click", function (id) {
+                return function () {
+                    openEdit(id);
+                };
+            }(f.id));
+
             var del = document.createElement("button");
             del.type = "button";
             del.className = "btn btn-ghost btn-sm";
@@ -118,6 +146,8 @@
                     removeFunnel(id);
                 };
             }(f.id));
+
+            tdAct.appendChild(editBtn);
             tdAct.appendChild(del);
             tr.appendChild(tdAct);
 
@@ -132,9 +162,17 @@
         });
         saveFunnels(list);
         renderTable();
+        notifyChange();
     }
 
-    function openDialog() {
+    function notifyChange() {
+        window.dispatchEvent(new CustomEvent("sc-data-change", { detail: { module: "funnels" } }));
+    }
+
+    function openAdd() {
+        if (els.editId) els.editId.value = "";
+        if (els.titleEl) els.titleEl.textContent = "Nowy lejek";
+        if (els.submitBtn) els.submitBtn.textContent = "Dodaj lejek";
         if (els.inputName) {
             els.inputName.value = "";
             els.inputName.focus();
@@ -146,29 +184,69 @@
         }
     }
 
+    function openEdit(id) {
+        var list = loadFunnels() || [];
+        var funnel = list.filter(function (f) {
+            return f.id === id;
+        })[0];
+        if (!funnel) return;
+
+        if (els.editId) els.editId.value = funnel.id;
+        if (els.titleEl) els.titleEl.textContent = "Edytuj lejek";
+        if (els.submitBtn) els.submitBtn.textContent = "Zapisz zmiany";
+        if (els.inputName) els.inputName.value = funnel.name || "";
+        if (els.inputStatus) els.inputStatus.value = funnel.status === "draft" ? "draft" : "live";
+        if (els.inputConversion) {
+            var conv = funnel.conversion != null && funnel.conversion !== "" && funnel.conversion !== "—"
+                ? funnel.conversion
+                : "";
+            els.inputConversion.value = conv;
+        }
+        if (els.dialog && typeof els.dialog.showModal === "function") {
+            els.dialog.showModal();
+        }
+        if (els.inputName) els.inputName.focus();
+    }
+
     function closeDialog() {
         if (els.dialog) els.dialog.close();
     }
 
-    function addFunnel(name, status, conversion) {
+    function upsertFunnel(id, name, status, conversion) {
         var list = loadFunnels() || [];
         var conv = normalizeConversion(conversion);
-        list.push({
-            id: newId(),
+        var rec = {
+            id: id || newId(),
             name: name.trim(),
             status: status === "draft" ? "draft" : "live",
             conversion: conv
-        });
+        };
+
+        if (id) {
+            var idx = -1;
+            for (var i = 0; i < list.length; i++) {
+                if (list[i].id === id) {
+                    idx = i;
+                    break;
+                }
+            }
+            if (idx >= 0) list[idx] = rec;
+        } else {
+            list.push(rec);
+        }
         saveFunnels(list);
         renderTable();
+        notifyChange();
     }
 
     ensureInitialData();
     renderTable();
 
     if (els.addBtn) {
-        els.addBtn.addEventListener("click", openDialog);
+        els.addBtn.addEventListener("click", openAdd);
     }
+    if (els.searchInput) els.searchInput.addEventListener("input", renderTable);
+    if (els.statusFilter) els.statusFilter.addEventListener("change", renderTable);
     if (els.closeBtn) {
         els.closeBtn.addEventListener("click", closeDialog);
     }
@@ -179,7 +257,8 @@
             var status = els.inputStatus ? els.inputStatus.value : "live";
             var conversion = els.inputConversion ? els.inputConversion.value : "";
             if (!name || !name.trim()) return;
-            addFunnel(name, status, conversion);
+            var editId = els.editId ? els.editId.value.trim() : "";
+            upsertFunnel(editId || null, name, status, conversion);
             closeDialog();
         });
     }
@@ -188,4 +267,26 @@
         if (e.key !== storageKey()) return;
         renderTable();
     });
+
+    function getFunnelById(id) {
+        return (loadFunnels() || []).filter(function (f) {
+            return f.id === id;
+        })[0] || null;
+    }
+
+    function findByName(name) {
+        var norm = String(name || "").trim().toLowerCase();
+        if (!norm) return null;
+        return (loadFunnels() || []).filter(function (f) {
+            return String(f.name || "").trim().toLowerCase() === norm;
+        })[0] || null;
+    }
+
+    window.SCFunnels = {
+        loadFunnels: function () { ensureInitialData(); return loadFunnels() || []; },
+        ensureInitialData: ensureInitialData,
+        getFunnelById: getFunnelById,
+        findByName: findByName,
+        storageKey: storageKey
+    };
 })();

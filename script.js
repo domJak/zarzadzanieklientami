@@ -53,8 +53,13 @@
             if (statusEl) {
                 statusEl.style.color = "#7dd3fc";
                 statusEl.textContent =
-                    "Dziękujemy — w tej wersji projektu formularz nie wysyła danych na serwer. Możesz dołączyć backend (np. API) w kolejnym etapie.";
+                    "Dziękujemy — wiadomość trafiła do skrzynki w panelu (zakładka Wiadomości).";
             }
+
+            if (window.SCMessages) {
+                window.SCMessages.addFromForm(name.value, email.value, msg.value);
+            }
+
             form.reset();
         });
     }

@@ -494,4 +494,15 @@
     });
 
     renderGrid();
+
+    window.SCCalendar = {
+        storageKey: storageKey,
+        loadStore: loadStore,
+        toISODate: toISODate,
+        countTodayEvents: function () {
+            var today = toISODate(new Date());
+            var store = loadStore();
+            return (store[today] || []).length;
+        }
+    };
 })();

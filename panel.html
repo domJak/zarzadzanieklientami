@@ -35,27 +35,30 @@
                 <div id="view-pulpit" class="panel-view">
                     <section class="widgets">
                         <article class="widget">
-                            <h2>Leady (7 dni)</h2>
-                            <p class="widget-stat">+128</p>
-                            <p class="widget-caption">Przykładowe dane</p>
+                            <h2>Leady w pipeline</h2>
+                            <p class="widget-stat" id="dashStatLeads">—</p>
+                            <p class="widget-caption" id="dashCapLeads">Aktywne kontakty CRM</p>
                         </article>
                         <article class="widget">
                             <h2>Spotkania dziś</h2>
-                            <p class="widget-stat">4</p>
-                            <p class="widget-caption">Kalendarz zespołu</p>
+                            <p class="widget-stat" id="dashStatMeetings">—</p>
+                            <p class="widget-caption">Z kalendarza</p>
                         </article>
                         <article class="widget">
                             <h2>Dokumenty do podpisu</h2>
-                            <p class="widget-stat">3</p>
-                            <p class="widget-caption">E-sign</p>
+                            <p class="widget-stat" id="dashStatDocs">—</p>
+                            <p class="widget-caption">Oczekujące / wysłane</p>
+                        </article>
+                        <article class="widget">
+                            <h2>Nowe wiadomości</h2>
+                            <p class="widget-stat" id="dashStatInbox">—</p>
+                            <p class="widget-caption">Nieprzeczytane w skrzynce</p>
                         </article>
                     </section>
                     <section class="panel-section">
                         <h2>Ostatnia aktywność</h2>
-                        <ul class="activity-list">
-                            <li><strong>Nowy lead:</strong> zapis z landing page „Webinar Q2”.</li>
-                            <li><strong>E-mail:</strong> otwarcie sekwencji powitalnej (klient: ACME).</li>
-                            <li><strong>Dokument:</strong> umowa ND podpisana przez obie strony.</li>
+                        <ul class="activity-list" id="dashboardActivity">
+                            <li class="muted">Ładowanie…</li>
                         </ul>
                     </section>
                 </div>
@@ -64,6 +67,20 @@
                     <section class="panel-section">
                         <h2>Twoje lejki</h2>
                         <p class="panel-intro">Builder stron, A/B testy, opt-in i publikacja na domenie. Poniższa lista zaczyna się od przykładów — możesz dodawać własne lejki; dane zapisują się w tej przeglądarce (powiązane z kontem).</p>
+                        <div class="panel-toolbar">
+                            <label class="panel-filter">
+                                <span class="sr-only">Szukaj lejka</span>
+                                <input type="search" id="funnelSearch" placeholder="Szukaj po nazwie…" autocomplete="off">
+                            </label>
+                            <label class="panel-filter">
+                                <span>Status</span>
+                                <select id="funnelStatusFilter">
+                                    <option value="">Wszystkie</option>
+                                    <option value="live">Aktywny</option>
+                                    <option value="draft">Szkic</option>
+                                </select>
+                            </label>
+                        </div>
                         <div class="table-wrap">
                             <table class="data-table" id="funnelsTable">
                                 <thead>
@@ -71,7 +88,7 @@
                                         <th>Nazwa lejka</th>
                                         <th>Status</th>
                                         <th>Konwersja (ostatnie 7 dni)</th>
-                                        <th></th>
+                                        <th class="funnels-actions-col">Akcje</th>
                                     </tr>
                                 </thead>
                                 <tbody id="funnelsTableBody"></tbody>
@@ -84,56 +101,67 @@
                 <div id="view-crm" class="panel-view" hidden>
                     <section class="panel-section">
                         <h2>Kontakty i leady</h2>
-                        <p class="panel-intro">Centralna baza, tagi, pipeline i smart listy — widok demonstracyjny.</p>
+                        <p class="panel-intro">Centralna baza, tagi, pipeline i smart listy. Zarządzaj kontaktami poniżej — dane zapisują się w tej przeglądarce (powiązane z kontem).</p>
+                        <div class="panel-toolbar">
+                            <label class="panel-filter">
+                                <span class="sr-only">Szukaj kontaktu</span>
+                                <input type="search" id="crmSearch" placeholder="Szukaj po nazwie lub e-mail…" autocomplete="off">
+                            </label>
+                            <label class="panel-filter">
+                                <span>Etap</span>
+                                <select id="crmStageFilter">
+                                    <option value="">Wszystkie</option>
+                                    <option value="new">Nowy lead</option>
+                                    <option value="qualify">Kwalifikacja</option>
+                                    <option value="offer">Oferta</option>
+                                    <option value="negotiation">Negocjacje</option>
+                                    <option value="won">Wygrany</option>
+                                    <option value="lost">Przegrany</option>
+                                </select>
+                            </label>
+                        </div>
                         <div class="table-wrap">
-                            <table class="data-table">
+                            <table class="data-table" id="crmTable">
                                 <thead>
                                     <tr>
                                         <th>Kontakt</th>
                                         <th>Etap</th>
                                         <th>Ostatnia aktywność</th>
+                                        <th class="crm-actions-col">Akcje</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Anna Kowalska <span class="muted">anna@example.com</span></td>
-                                        <td>Kwalifikacja</td>
-                                        <td>Dziś, 09:12</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ACME Sp. z o.o. <span class="muted">kontakt@acme.pl</span></td>
-                                        <td>Oferta</td>
-                                        <td>Wczoraj</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Marek Nowak <span class="muted">m.nowak@firma.eu</span></td>
-                                        <td>Nowy lead</td>
-                                        <td>2 dni temu</td>
-                                    </tr>
-                                </tbody>
+                                <tbody id="crmTableBody"></tbody>
                             </table>
                         </div>
+                        <p class="panel-actions"><button type="button" class="btn btn-primary btn-sm" id="addContactBtn">+ Nowy kontakt</button></p>
                     </section>
                 </div>
 
                 <div id="view-wiadomosci" class="panel-view" hidden>
                     <section class="panel-section">
                         <h2>Unified inbox</h2>
-                        <p class="panel-intro">E-mail, SMS i czaty w jednym widoku — przykładowa skrzynka.</p>
-                        <ul class="inbox-list">
-                            <li class="inbox-item">
-                                <span class="inbox-channel">E-mail</span>
-                                <strong>ACME</strong> — „Pytanie o wdrożenie” <span class="muted">· 11:04</span>
-                            </li>
-                            <li class="inbox-item">
-                                <span class="inbox-channel">SMS</span>
-                                <strong>+48 *** *** 102</strong> — „Potwierdzam spotkanie” <span class="muted">· 10:22</span>
-                            </li>
-                            <li class="inbox-item">
-                                <span class="inbox-channel">Messenger</span>
-                                <strong>Lead: Webinar</strong> — „Czy nagranie będzie dostępne?” <span class="muted">· Wczoraj</span>
-                            </li>
-                        </ul>
+                        <p class="panel-intro">E-mail, SMS, czaty i zgłoszenia z formularza kontaktowego na stronie — w jednym widoku. Wiadomości z formularza trafiają tutaj automatycznie.</p>
+                        <div class="panel-toolbar">
+                            <label class="panel-filter">
+                                <span class="sr-only">Szukaj wiadomości</span>
+                                <input type="search" id="inboxSearch" placeholder="Szukaj po nadawcy lub treści…" autocomplete="off">
+                            </label>
+                            <label class="panel-filter">
+                                <span>Kanał</span>
+                                <select id="inboxChannelFilter">
+                                    <option value="">Wszystkie</option>
+                                    <option value="form">Formularz WWW</option>
+                                    <option value="email">E-mail</option>
+                                    <option value="sms">SMS</option>
+                                    <option value="messenger">Messenger</option>
+                                </select>
+                            </label>
+                            <label class="panel-filter panel-filter-check">
+                                <input type="checkbox" id="inboxUnreadOnly">
+                                <span>Tylko nieprzeczytane</span>
+                            </label>
+                        </div>
+                        <ul class="inbox-list" id="inboxList"></ul>
                     </section>
                 </div>
 
@@ -149,33 +177,18 @@
                 <div id="view-dokumenty" class="panel-view" hidden>
                     <section class="panel-section">
                         <h2>Dokumenty i e-podpis</h2>
-                        <p class="panel-intro">PDF/HTML, status podpisu, archiwum i powiązanie z kontaktem w CRM.</p>
+                        <p class="panel-intro">PDF/HTML, status podpisu, archiwum i powiązanie z kontaktem w CRM. Kliknij „Przeglądaj”, aby otworzyć podgląd dokumentu.</p>
                         <div class="table-wrap">
-                            <table class="data-table">
+                            <table class="data-table" id="documentsTable">
                                 <thead>
                                     <tr>
                                         <th>Dokument</th>
                                         <th>Status</th>
                                         <th>Powiązany kontakt</th>
+                                        <th class="documents-actions-col">Akcje</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Umowa ND — ACME.pdf</td>
-                                        <td><span class="tag tag-ok">Podpisana</span></td>
-                                        <td>ACME Sp. z o.o.</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Zgody marketingowe.pdf</td>
-                                        <td><span class="tag tag-wait">Oczekuje</span></td>
-                                        <td>Anna Kowalska</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Regulamin usługi.pdf</td>
-                                        <td><span class="tag tag-wait">Wysłany</span></td>
-                                        <td>Marek Nowak</td>
-                                    </tr>
-                                </tbody>
+                                <tbody id="documentsTableBody"></tbody>
                             </table>
                         </div>
                     </section>
@@ -251,6 +264,7 @@
                     <div class="cal-dialog-inner">
                         <h3 class="cal-dialog-title" id="funnelDialogTitle">Nowy lejek</h3>
                         <form class="cal-add-form" id="funnelAddForm">
+                            <input type="hidden" id="funnelEditId" value="">
                             <label class="cal-field">
                                 <span>Nazwa lejka</span>
                                 <input type="text" name="name" id="funnelInputName" required maxlength="120" autocomplete="off" placeholder="np. Landing — oferta wakacyjna">
@@ -267,7 +281,7 @@
                                 <input type="text" name="conversion" id="funnelInputConversion" maxlength="20" autocomplete="off" placeholder="np. 4,2% lub zostaw puste">
                             </label>
                             <div class="cal-dialog-actions">
-                                <button type="submit" class="btn btn-primary btn-sm">Dodaj lejek</button>
+                                <button type="submit" class="btn btn-primary btn-sm" id="funnelSubmitBtn">Dodaj lejek</button>
                                 <button type="button" class="btn btn-ghost btn-sm" id="funnelDialogClose">Anuluj</button>
                             </div>
                         </form>
@@ -305,14 +319,139 @@
                         </form>
                     </div>
                 </dialog>
+
+                <dialog class="cal-dialog" id="contactDialog" aria-labelledby="contactDialogTitle">
+                    <div class="cal-dialog-inner">
+                        <h3 class="cal-dialog-title" id="contactDialogTitle">Nowy kontakt</h3>
+                        <form class="cal-add-form" id="contactForm">
+                            <input type="hidden" id="contactEditId" value="">
+                            <label class="cal-field">
+                                <span>Imię i nazwisko / firma</span>
+                                <input type="text" name="name" id="contactInputName" required maxlength="120" autocomplete="off" placeholder="np. Anna Kowalska">
+                            </label>
+                            <label class="cal-field">
+                                <span>E-mail</span>
+                                <input type="email" name="email" id="contactInputEmail" required maxlength="160" autocomplete="off" placeholder="np. anna@example.com">
+                            </label>
+                            <label class="cal-field">
+                                <span>Telefon <span class="muted">— opcjonalnie</span></span>
+                                <input type="text" name="phone" id="contactInputPhone" maxlength="30" autocomplete="off" placeholder="np. +48 600 000 000">
+                            </label>
+                            <label class="cal-field">
+                                <span>Etap pipeline</span>
+                                <select name="stage" id="contactInputStage">
+                                    <option value="new">Nowy lead</option>
+                                    <option value="qualify">Kwalifikacja</option>
+                                    <option value="offer">Oferta</option>
+                                    <option value="negotiation">Negocjacje</option>
+                                    <option value="won">Wygrany</option>
+                                    <option value="lost">Przegrany</option>
+                                </select>
+                            </label>
+                            <label class="cal-field">
+                                <span>Lejek źródłowy <span class="muted">— opcjonalnie</span></span>
+                                <select name="funnelId" id="contactInputFunnel">
+                                    <option value="">— brak —</option>
+                                </select>
+                            </label>
+                            <label class="cal-field">
+                                <span>Tagi <span class="muted">— opcjonalnie, po przecinku</span></span>
+                                <input type="text" name="tags" id="contactInputTags" maxlength="120" autocomplete="off" placeholder="np. B2B, webinar, gorący">
+                            </label>
+                            <label class="cal-field">
+                                <span>Ostatnia aktywność <span class="muted">— opcjonalnie</span></span>
+                                <input type="text" name="lastActivity" id="contactInputActivity" maxlength="80" autocomplete="off" placeholder="np. Dziś, 09:12">
+                            </label>
+                            <label class="cal-field">
+                                <span>Notatki <span class="muted">— opcjonalnie</span></span>
+                                <textarea name="notes" id="contactInputNotes" rows="3" maxlength="800" placeholder="Historia rozmów, ustalenia, kolejne kroki…"></textarea>
+                            </label>
+                            <div class="cal-dialog-actions">
+                                <button type="submit" class="btn btn-primary btn-sm" id="contactSubmitBtn">Dodaj kontakt</button>
+                                <button type="button" class="btn btn-ghost btn-sm" id="contactDialogClose">Anuluj</button>
+                            </div>
+                        </form>
+                    </div>
+                </dialog>
+
+                <dialog class="cal-dialog crm-detail-dialog" id="contactDetailDialog" aria-labelledby="contactDetailTitle">
+                    <div class="cal-dialog-inner">
+                        <h3 class="cal-dialog-title" id="contactDetailTitle">Szczegóły kontaktu</h3>
+                        <div class="crm-detail-meta" id="contactDetailMeta"></div>
+                        <div class="crm-detail-links" id="contactDetailLinks"></div>
+                        <div class="crm-detail-notes" id="contactDetailNotes"></div>
+                        <div class="cal-dialog-actions">
+                            <button type="button" class="btn btn-ghost btn-sm" id="contactDetailEdit">Edytuj</button>
+                            <button type="button" class="btn btn-primary btn-sm" id="contactDetailClose">Zamknij</button>
+                        </div>
+                    </div>
+                </dialog>
+
+                <dialog class="cal-dialog inbox-detail-dialog" id="inboxDetailDialog" aria-labelledby="inboxDetailTitle">
+                    <div class="cal-dialog-inner">
+                        <h3 class="cal-dialog-title" id="inboxDetailTitle">Wiadomość</h3>
+                        <div class="inbox-detail-meta" id="inboxDetailMeta"></div>
+                        <div class="inbox-detail-body" id="inboxDetailBody"></div>
+                        <p class="inbox-reply-status muted" id="inboxReplyStatus" role="status" aria-live="polite"></p>
+                        <div class="cal-dialog-actions">
+                            <button type="button" class="btn btn-ghost btn-sm" id="inboxAddToCrm">Dodaj do CRM</button>
+                            <button type="button" class="btn btn-ghost btn-sm" id="inboxReplyMailto" hidden>Odpowiedz (e-mail)</button>
+                            <button type="button" class="btn btn-ghost btn-sm" id="inboxReplyCopy">Kopiuj szablon</button>
+                            <button type="button" class="btn btn-ghost btn-sm" id="inboxDetailDelete">Usuń</button>
+                            <button type="button" class="btn btn-primary btn-sm" id="inboxDetailClose">Zamknij</button>
+                        </div>
+                    </div>
+                </dialog>
+
+                <dialog class="cal-dialog doc-viewer-dialog" id="docViewerDialog" aria-labelledby="docViewerTitle">
+                    <div class="cal-dialog-inner">
+                        <h3 class="cal-dialog-title" id="docViewerTitle">Podgląd dokumentu</h3>
+                        <div class="doc-viewer-meta" id="docViewerMeta"></div>
+                        <div class="doc-viewer-preview" id="docViewerPreview" tabindex="0"></div>
+                        <div class="cal-dialog-actions">
+                            <button type="button" class="btn btn-ghost btn-sm" id="docViewerStatus">Status</button>
+                            <button type="button" class="btn btn-primary btn-sm" id="docViewerDownload">Pobierz PDF</button>
+                            <button type="button" class="btn btn-ghost btn-sm" id="docViewerClose">Zamknij</button>
+                        </div>
+                    </div>
+                </dialog>
+
+                <dialog class="cal-dialog" id="docStatusDialog" aria-labelledby="docStatusDialogTitle">
+                    <div class="cal-dialog-inner">
+                        <h3 class="cal-dialog-title" id="docStatusDialogTitle">Zmień status</h3>
+                        <form class="cal-add-form" id="docStatusForm">
+                            <input type="hidden" id="docStatusEditId" value="">
+                            <p class="doc-status-name muted" id="docStatusDocName"></p>
+                            <label class="cal-field">
+                                <span>Status podpisu</span>
+                                <select name="status" id="docStatusInput" required>
+                                    <option value="sent">Wysłany</option>
+                                    <option value="pending">Oczekuje</option>
+                                    <option value="signed">Podpisana</option>
+                                </select>
+                            </label>
+                            <div class="cal-dialog-actions">
+                                <button type="submit" class="btn btn-primary btn-sm">Zapisz</button>
+                                <button type="button" class="btn btn-ghost btn-sm" id="docStatusDialogClose">Anuluj</button>
+                            </div>
+                        </form>
+                    </div>
+                </dialog>
             </div>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/vfs_fonts.min.js"></script>
     <script src="auth.js"></script>
+    <script src="messages.js?v=1"></script>
     <script src="panel-app.js"></script>
     <script src="panel-calendar.js"></script>
-    <script src="panel-funnels.js"></script>
+    <script src="panel-funnels.js?v=3"></script>
     <script src="panel-courses.js"></script>
+    <script src="panel-crm.js?v=2"></script>
+    <script src="panel-messages.js?v=2"></script>
+    <script src="panel-documents.js?v=4"></script>
+    <script src="panel-dashboard.js?v=1"></script>
 </body>
 </html>
