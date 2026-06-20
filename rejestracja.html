@@ -15,9 +15,13 @@
     <main class="auth-main">
         <div class="auth-card">
             <h1 class="auth-title">Rejestracja</h1>
-            <p class="auth-lead">Utwórz konto demo. Hasło jest przechowywane jako skrót SHA-256 wyłącznie po stronie przeglądarki — to nie zastępuje prawdziwej autoryzacji na serwerze.</p>
+            <p class="auth-lead">Rejestracja wymaga kodu zaproszenia od administratora. Hasło jest przechowywane jako skrót SHA-256 wyłącznie po stronie przeglądarki — to nie zastępuje prawdziwej autoryzacji na serwerze.</p>
 
             <form id="registerForm" class="auth-form" novalidate>
+                <div class="form-row">
+                    <label for="reg-invite">Kod rejestracji</label>
+                    <input type="text" id="reg-invite" name="invite" required autocomplete="off" maxlength="64" placeholder="Kod od administratora">
+                </div>
                 <div class="form-row">
                     <label for="reg-email">E-mail</label>
                     <input type="email" id="reg-email" name="email" autocomplete="email" required placeholder="jan@firma.pl">
@@ -46,6 +50,7 @@
             form.addEventListener("submit", function (e) {
                 e.preventDefault();
                 var email = document.getElementById("reg-email").value;
+                var invite = document.getElementById("reg-invite").value;
                 var p1 = document.getElementById("reg-password").value;
                 var p2 = document.getElementById("reg-password2").value;
                 if (p1 !== p2) {
@@ -60,7 +65,7 @@
                 }
                 statusEl.style.color = "#94a3b8";
                 statusEl.textContent = "Tworzenie konta…";
-                window.SCAuth.registerUser(email, p1)
+                window.SCAuth.registerUser(email, p1, invite)
                     .then(function (res) {
                         if (res.ok) {
                             window.location.href =

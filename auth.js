@@ -3,6 +3,9 @@
     var SESSION_KEY = "salescontrol_session";
     var LEGACY_SESSION_KEY = "salescontrol_session_legacy";
 
+    /** Wymagany kod zaproszenia do rejestracji. Domyślny kod: ZPP-2026 */
+    var REGISTRATION_CODE_HASH = "20cc57eac6ae8a683504aafba72d6189807e0c367478c2552ad59cf184037f6b";
+
     function getUsers() {
         try {
             return JSON.parse(localStorage.getItem(STORAGE_USERS) || "[]");
@@ -34,19 +37,27 @@
         return String(email || "").trim().toLowerCase();
     }
 
-    function registerUser(email, password) {
+    function registerUser(email, password, inviteCode) {
         var norm = normalizeEmail(email);
         if (!norm || !password) {
             return Promise.resolve({ ok: false, error: "Uzupełnij wszystkie pola." });
         }
-        var users = getUsers();
-        if (users.some(function (u) { return u.email === norm; })) {
-            return Promise.resolve({ ok: false, error: "Ten adres e-mail jest już zarejestrowany." });
+        if (!String(inviteCode || "").trim()) {
+            return Promise.resolve({ ok: false, error: "Podaj kod rejestracji otrzymany od administratora." });
         }
-        return hashPassword(password).then(function (hash) {
-            users.push({ email: norm, passwordHash: hash });
-            saveUsers(users);
-            return { ok: true };
+        return hashPassword(String(inviteCode).trim()).then(function (codeHash) {
+            if (codeHash !== REGISTRATION_CODE_HASH) {
+                return { ok: false, error: "Nieprawidłowy kod rejestracji." };
+            }
+            var users = getUsers();
+            if (users.some(function (u) { return u.email === norm; })) {
+                return { ok: false, error: "Ten adres e-mail jest już zarejestrowany." };
+            }
+            return hashPassword(password).then(function (hash) {
+                users.push({ email: norm, passwordHash: hash });
+                saveUsers(users);
+                return { ok: true };
+            });
         });
     }
 
@@ -117,6 +128,7 @@
         logout: logout,
         isLoggedIn: isLoggedIn,
         getSessionEmail: getSessionEmail,
-        getSafeNextUrl: getSafeNextUrl
+        getSafeNextUrl: getSafeNextUrl,
+        registrationRequiresInvite: true
     };
 })();
