@@ -155,6 +155,37 @@
         });
     }
 
+    function renderEventMain(ev, mainEl) {
+        if (ev.time) {
+            var timeEl = document.createElement("strong");
+            timeEl.textContent = ev.time;
+            mainEl.appendChild(timeEl);
+            mainEl.appendChild(document.createTextNode(" — "));
+        }
+        var titleEl = document.createElement("span");
+        if (ev.type === "booking" && ev.clientName) {
+            titleEl.textContent = ev.clientName;
+            mainEl.appendChild(titleEl);
+            if (ev.funnelName) {
+                mainEl.appendChild(document.createTextNode(" · "));
+                var funnelEl = document.createElement("span");
+                funnelEl.className = "muted";
+                funnelEl.textContent = ev.funnelName;
+                mainEl.appendChild(funnelEl);
+            }
+        } else {
+            titleEl.textContent = ev.title || "(bez tytułu)";
+            mainEl.appendChild(titleEl);
+        }
+        if (ev.type === "booking") {
+            var badge = document.createElement("span");
+            badge.className = "tag tag-live cal-booking-badge";
+            badge.textContent = "Rezerwacja";
+            mainEl.appendChild(document.createTextNode(" "));
+            mainEl.appendChild(badge);
+        }
+    }
+
     function renderAgendaList(ulEl, iso, emptyText) {
         if (!ulEl) return;
         var store = loadStore();
@@ -175,15 +206,7 @@
 
             var main = document.createElement("div");
             main.className = "today-panel-item-main";
-            if (ev.time) {
-                var timeEl = document.createElement("strong");
-                timeEl.textContent = ev.time;
-                main.appendChild(timeEl);
-                main.appendChild(document.createTextNode(" — "));
-            }
-            var titleEl = document.createElement("span");
-            titleEl.textContent = ev.title || "(bez tytułu)";
-            main.appendChild(titleEl);
+            renderEventMain(ev, main);
             li.appendChild(main);
 
             if (ev.note) {
@@ -339,15 +362,7 @@
 
             var main = document.createElement("div");
             main.className = "cal-event-main";
-            if (ev.time) {
-                var timeEl = document.createElement("strong");
-                timeEl.textContent = ev.time;
-                main.appendChild(timeEl);
-                main.appendChild(document.createTextNode(" — "));
-            }
-            var titleEl = document.createElement("span");
-            titleEl.textContent = ev.title || "(bez tytułu)";
-            main.appendChild(titleEl);
+            renderEventMain(ev, main);
             li.appendChild(main);
 
             if (ev.note) {
@@ -491,6 +506,14 @@
         renderTomorrowDateLine();
         renderGrid();
         if (state.selectedISO) renderEventList();
+    });
+
+    window.addEventListener("sc-data-change", function (e) {
+        if (e.detail && e.detail.module === "calendar") {
+            cachedTodayIso = toISODate(new Date());
+            renderGrid();
+            if (state.selectedISO) renderEventList();
+        }
     });
 
     renderGrid();

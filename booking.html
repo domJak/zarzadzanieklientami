@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Rezerwacja spotkania — SalesControl</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="salespage-body">
+    <header class="salespage-header">
+        <a class="logo" href="index.html">SalesControl</a>
+        <a class="auth-back" id="backToOffer" href="#">← Wróć do oferty</a>
+    </header>
+
+    <main class="salespage-main">
+        <article class="salespage-card booking-card" id="bookingFormWrap" hidden>
+            <p class="salespage-eyebrow">Rezerwacja spotkania</p>
+            <h1 class="salespage-title" id="bookingOfferTitle"></h1>
+            <p class="muted booking-lead">Wybierz datę i godzinę (spotkania trwają 1 godzinę, godz. 08:00–16:00).</p>
+
+            <form class="booking-form" id="bookingForm" novalidate>
+                <div class="form-row">
+                    <label for="bookingDate">Data <span class="req">*</span></label>
+                    <input type="date" id="bookingDate" name="date" required>
+                    <p class="field-error" id="dateError" hidden></p>
+                </div>
+
+                <div class="form-row">
+                    <span class="label-block">Godzina <span class="req">*</span></span>
+                    <div class="slot-grid" id="slotGrid" role="radiogroup" aria-label="Dostępne godziny"></div>
+                    <input type="hidden" id="bookingTime" name="time" value="">
+                    <p class="field-error" id="timeError" hidden></p>
+                    <p class="muted slot-hint" id="slotHint">Najpierw wybierz datę.</p>
+                </div>
+
+                <div class="form-row">
+                    <label for="bookingName">Imię i nazwisko <span class="req">*</span></label>
+                    <input type="text" id="bookingName" name="name" required maxlength="120" autocomplete="name" placeholder="Jan Kowalski">
+                    <p class="field-error" id="nameError" hidden></p>
+                </div>
+
+                <div class="form-row">
+                    <label for="bookingEmail">E-mail <span class="req">*</span></label>
+                    <input type="email" id="bookingEmail" name="email" required autocomplete="email" placeholder="jan@firma.pl">
+                    <p class="field-error" id="emailError" hidden></p>
+                </div>
+
+                <div class="form-row">
+                    <label for="bookingMessage">Wiadomość <span class="muted">(opcjonalnie)</span></label>
+                    <textarea id="bookingMessage" name="message" rows="3" maxlength="500" placeholder="Krótko opisz, czego dotyczy spotkanie…"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" id="bookingSubmit">Zarezerwuj spotkanie</button>
+                <p class="form-status" id="bookingStatus" role="status" aria-live="polite"></p>
+            </form>
+        </article>
+
+        <article class="salespage-card booking-success" id="bookingSuccess" hidden>
+            <h1 class="salespage-title">Spotkanie zostało zarezerwowane</h1>
+            <p class="booking-success-detail" id="successDetail"></p>
+            <p class="salespage-actions">
+                <a class="btn btn-ghost" id="successBackOffer" href="#">Wróć do oferty</a>
+            </p>
+        </article>
+
+        <div class="salespage-card salespage-error" id="bookingError" hidden>
+            <h1 class="salespage-title">Nie można zarezerwować spotkania</h1>
+            <p class="muted" id="bookingErrorText">Nie znaleziono oferty powiązanej z tym linkiem.</p>
+            <p class="salespage-actions">
+                <a class="btn btn-ghost" href="index.html">Strona główna</a>
+            </p>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2026 SalesControl — rezerwacja spotkań (demonstracja).</p>
+    </footer>
+
+    <script src="booking-utils.js"></script>
+    <script src="booking.js"></script>
+</body>
+</html>

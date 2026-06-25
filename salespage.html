@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Oferta — SalesControl</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="salespage-body">
+    <header class="salespage-header">
+        <a class="logo" href="index.html">SalesControl</a>
+    </header>
+
+    <main class="salespage-main">
+        <article class="salespage-card" id="salespageContent" hidden>
+            <p class="salespage-eyebrow">Oferta specjalna</p>
+            <h1 class="salespage-title" id="offerTitle"></h1>
+            <p class="salespage-status-wrap">
+                <span class="tag" id="offerStatus"></span>
+            </p>
+            <p class="salespage-desc" id="offerDesc"></p>
+            <div class="salespage-meta" id="offerMeta"></div>
+            <p class="salespage-actions">
+                <a class="btn btn-primary" id="bookCta" href="#">Umów spotkanie</a>
+            </p>
+        </article>
+
+        <div class="salespage-card salespage-error" id="salespageError" hidden>
+            <h1 class="salespage-title">Nie znaleziono oferty</h1>
+            <p class="muted">Sprawdź link do strony oferty lub skontaktuj się z nadawcą.</p>
+            <p class="salespage-actions">
+                <a class="btn btn-ghost" href="index.html">Strona główna</a>
+            </p>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2026 SalesControl — strona oferty (demonstracja).</p>
+    </footer>
+
+    <script src="booking-utils.js"></script>
+    <script src="salespage.js"></script>
+</body>
+</html>

@@ -5,9 +5,24 @@
     var STORAGE_PREFIX = "salescontrol_funnels_";
 
     var SEED = [
-        { name: "Webinar Q2", status: "live", conversion: "3,2%" },
-        { name: "Lead magnet — checklista", status: "live", conversion: "5,8%" },
-        { name: "Oferta produktowa", status: "draft", conversion: "—" }
+        {
+            name: "Webinar Q2",
+            status: "live",
+            conversion: "3,2%",
+            description: "Bezpłatny webinar o skalowaniu sprzedaży online — zapisz się na konsultację po wydarzeniu."
+        },
+        {
+            name: "Lead magnet — checklista",
+            status: "live",
+            conversion: "5,8%",
+            description: "Pobierz checklistę i umów krótkie spotkanie, aby omówić wdrożenie u Ciebie."
+        },
+        {
+            name: "Oferta produktowa",
+            status: "draft",
+            conversion: "—",
+            description: "Kompleksowa oferta produktowa dla firm B2B — strona w przygotowaniu."
+        }
     ];
 
     function storageKey() {
@@ -44,7 +59,8 @@
                 id: newId(),
                 name: s.name,
                 status: s.status,
-                conversion: s.conversion
+                conversion: s.conversion,
+                description: s.description || ""
             };
         });
         saveFunnels(initial);
@@ -65,6 +81,8 @@
         editId: document.getElementById("funnelEditId"),
         inputName: document.getElementById("funnelInputName"),
         inputStatus: document.getElementById("funnelInputStatus"),
+        inputConversion: document.getElementById("funnelInputConversion"),
+        inputDescription: document.getElementById("funnelInputDescription"),
         searchInput: document.getElementById("funnelSearch"),
         statusFilter: document.getElementById("funnelStatusFilter")
     };
@@ -137,6 +155,13 @@
                 };
             }(f.id));
 
+            var salesBtn = document.createElement("a");
+            salesBtn.className = "btn btn-ghost btn-sm";
+            salesBtn.textContent = "Strona oferty";
+            salesBtn.href = buildSalespageUrl(f.id);
+            salesBtn.target = "_blank";
+            salesBtn.rel = "noopener noreferrer";
+
             var del = document.createElement("button");
             del.type = "button";
             del.className = "btn btn-ghost btn-sm";
@@ -147,12 +172,23 @@
                 };
             }(f.id));
 
+            tdAct.appendChild(salesBtn);
             tdAct.appendChild(editBtn);
             tdAct.appendChild(del);
             tr.appendChild(tdAct);
 
             tbody.appendChild(tr);
         });
+    }
+
+    function buildSalespageUrl(funnelId) {
+        var url = "salespage.html?id=" + encodeURIComponent(funnelId);
+        var em =
+            window.SCAuth && window.SCAuth.getSessionEmail
+                ? window.SCAuth.getSessionEmail()
+                : "";
+        if (em) url += "&owner=" + encodeURIComponent(em);
+        return url;
     }
 
     function removeFunnel(id) {
@@ -179,6 +215,7 @@
         }
         if (els.inputStatus) els.inputStatus.value = "live";
         if (els.inputConversion) els.inputConversion.value = "";
+        if (els.inputDescription) els.inputDescription.value = "";
         if (els.dialog && typeof els.dialog.showModal === "function") {
             els.dialog.showModal();
         }
@@ -202,6 +239,7 @@
                 : "";
             els.inputConversion.value = conv;
         }
+        if (els.inputDescription) els.inputDescription.value = funnel.description || "";
         if (els.dialog && typeof els.dialog.showModal === "function") {
             els.dialog.showModal();
         }
@@ -212,14 +250,15 @@
         if (els.dialog) els.dialog.close();
     }
 
-    function upsertFunnel(id, name, status, conversion) {
+    function upsertFunnel(id, name, status, conversion, description) {
         var list = loadFunnels() || [];
         var conv = normalizeConversion(conversion);
         var rec = {
             id: id || newId(),
             name: name.trim(),
             status: status === "draft" ? "draft" : "live",
-            conversion: conv
+            conversion: conv,
+            description: String(description || "").trim()
         };
 
         if (id) {
@@ -256,9 +295,10 @@
             var name = els.inputName ? els.inputName.value : "";
             var status = els.inputStatus ? els.inputStatus.value : "live";
             var conversion = els.inputConversion ? els.inputConversion.value : "";
+            var description = els.inputDescription ? els.inputDescription.value : "";
             if (!name || !name.trim()) return;
             var editId = els.editId ? els.editId.value.trim() : "";
-            upsertFunnel(editId || null, name, status, conversion);
+            upsertFunnel(editId || null, name, status, conversion, description);
             closeDialog();
         });
     }
@@ -287,6 +327,7 @@
         ensureInitialData: ensureInitialData,
         getFunnelById: getFunnelById,
         findByName: findByName,
-        storageKey: storageKey
+        storageKey: storageKey,
+        buildSalespageUrl: buildSalespageUrl
     };
 })();
